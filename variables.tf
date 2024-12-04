@@ -51,11 +51,6 @@ variable "subnets" {
   default     = []
 }
 
-variable "codestar_arn" {
-  type        = string
-  description = "codestar arn"
-}
-
 variable "iam_codebuild_full_access" {
   type        = bool
   description = "iam codebuild full access"
