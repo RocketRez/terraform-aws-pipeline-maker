@@ -15,10 +15,6 @@ resource "aws_iam_role" "codepipeline_role" {
   path               = "/ci-cd-automated-roles/"
 }
 
-data "aws_codestarconnections_connection" "codestar_connection" {
-  arn = var.codestar_arn
-}
-
 data "aws_iam_policy_document" "codepipeline_role_iam_policy_document" {
   statement {
     effect = "Allow"

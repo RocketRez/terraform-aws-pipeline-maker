@@ -25,7 +25,7 @@ resource "aws_codepipeline" "codepipeline" {
         output_artifacts = ["source_output_${action.value.application_name}"]
 
         configuration = {
-          ConnectionArn    = data.aws_codestarconnections_connection.codestar_connection.arn
+          ConnectionArn    = var.codestar_connection_arn
           FullRepositoryId = "${var.organization_repo_name}/${action.value.application_repo_name}"
           BranchName       = action.value.branchName
         }

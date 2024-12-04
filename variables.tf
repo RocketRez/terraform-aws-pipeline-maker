@@ -79,3 +79,7 @@ variable "codepipeline_bucket" {
   default     = ""
 }
 
+variable "codestar_connection_arn" {
+  type        = string
+  description = "codepipeline bucket"
+}
