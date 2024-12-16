@@ -24,6 +24,7 @@ variable "applications_details" {
     }))
     buildspec_path   = string
     has_deploy_stage = bool
+    has_build_stage = bool
     input_artifacts = list(string)
     output_artifacts = list(string)
   }))
