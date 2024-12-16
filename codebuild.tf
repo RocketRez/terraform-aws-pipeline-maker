@@ -1,6 +1,6 @@
 
 resource "aws_codebuild_project" "codebuild_project" {
-  for_each    = var.applications_details
+  for_each = [for applications_detail in var.applications_details : applications_detail if applications_detail.has_build_stage]
   name        = "${each.value.application_name}_Build"
   description = "${each.value.application_name}'s build project"
   cache {
