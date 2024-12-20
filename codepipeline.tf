@@ -36,28 +36,29 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
 
-  dynamic "stage_build" {
+  dynamic "stage" {
     for_each = length([for applications_detail in var.applications_details : applications_detail if applications_detail.has_build_stage]) > 0 ? ["1"] : []
-    
-    name = "Build"
-    dynamic "action" {
-      for_each = [for applications_detail in var.applications_details : applications_detail if applications_detail.has_build_stage]
-      content {
-        name             = action.value.application_name
-        category         = "Build"
-        owner            = "AWS"
-        provider         = "CodeBuild"
-        input_artifacts  = length(action.value.input_artifacts) > 0 ? action.value.input_artifacts : ["source_output_${action.value.application_name}"]
-        output_artifacts = length(action.value.output_artifacts) > 0 ? action.value.output_artifacts : ["build_output_${action.value.application_name}"]
-        version          = "1"
+     content {
+      name = "Build"
+      dynamic "action" {
+        for_each = [for applications_detail in var.applications_details : applications_detail if applications_detail.has_build_stage]
+        content {
+          name             = action.value.application_name
+          category         = "Build"
+          owner            = "AWS"
+          provider         = "CodeBuild"
+          input_artifacts  = length(action.value.input_artifacts) > 0 ? action.value.input_artifacts : ["source_output_${action.value.application_name}"]
+          output_artifacts = length(action.value.output_artifacts) > 0 ? action.value.output_artifacts : ["build_output_${action.value.application_name}"]
+          version          = "1"
 
-        configuration = {
-          ProjectName          = "${action.value.application_name}_Build"
-          PrimarySource        = "source_output_${action.value.application_name}"
-          EnvironmentVariables = jsonencode(action.value.application_codebuild_env_variables)
+          configuration = {
+            ProjectName          = "${action.value.application_name}_Build"
+            PrimarySource        = "source_output_${action.value.application_name}"
+            EnvironmentVariables = jsonencode(action.value.application_codebuild_env_variables)
+          }
         }
       }
-    }
+     }
   }
 
 
